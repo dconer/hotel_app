@@ -1,28 +1,26 @@
-/*
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-  rel="stylesheet"
-/>
-<link
-  href="https://fonts.googleapis.com/css2?family=Sono:wght@400;500;600&display=swap"
-  rel="stylesheet"
-/>
-*/
+import { createGlobalStyle } from "styled-components";
 
-/* Colors adapted from https://tailwindcss.com/docs/customizing-colors */
+const GlobalStyles = createGlobalStyle`
 
 :root {
   /* Indigo */
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #312e81;
+  --color-brand-50: #fff9f5;
+  --color-brand-100: #fff0e6;
+  --color-brand-200: #ffd5b8;
+  --color-brand-500: #ffba8a;
+  --color-brand-600: #fe6a00;
+  --color-brand-700: #e05d00;
+  --color-brand-800: #b24a00;
+  --color-brand-900: #753100;
+
+  --color-sec-500:#0094fe;
+
+  
+  --color-error:#ef5350;
+  --color-error--dark:#c64442;
+  --color-warning:#ffbf01;
+  --color-success:#4caf50;
+  --color-info:#00bcd4;
 
   /* Grey */
   --color-grey-0: #fff;
@@ -37,6 +35,9 @@
   --color-grey-800: #1f2937;
   --color-grey-900: #111827;
 
+  /*  */
+  /* Others */
+  /*  */
   --color-blue-100: #e0f2fe;
   --color-blue-700: #0369a1;
   --color-green-100: #dcfce7;
@@ -48,9 +49,6 @@
   --color-indigo-100: #e0e7ff;
   --color-indigo-700: #4338ca;
 
-  --color-red-100: #fee2e2;
-  --color-red-700: #b91c1c;
-  --color-red-800: #991b1b;
 
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
@@ -194,3 +192,9 @@ FOR DARK MODE
 --image-grayscale: 10%;
 --image-opacity: 90%;
 */
+
+
+
+`;
+
+export default GlobalStyles;

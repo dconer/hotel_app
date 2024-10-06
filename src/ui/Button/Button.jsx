@@ -40,10 +40,30 @@ const variations = {
   `,
   danger: css`
     color: var(--color-red-100);
-    background-color: var(--color-red-700);
+    background-color: var(--color-error);
 
     &:hover {
-      background-color: var(--color-red-800);
+      background-color: var(--color-error--dark);
     }
   `,
 };
+
+const Button = styled.button`
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    background-color: var(--color-brand-700);
+  }
+
+  ${(props) => sizes[props.size]}
+  ${(props) => variations[props.variation]}
+`;
+
+Button.defaultProps = {
+  variation: "primary",
+  size: "medium",
+};
+
+export default Button;
