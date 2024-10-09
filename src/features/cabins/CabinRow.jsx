@@ -1,4 +1,14 @@
+import PropTypes from "prop-types";
+
+import { formatCurrency } from "../../utils/helpers";
+
 import styled from "styled-components";
+import CreateCabinForm from "./CreateCabinForm";
+
+import { useState } from "react";
+import { useDeleteCabin } from "./hooks/useDeleteCabin";
+import { AiOutlineDelete, AiOutlineDiff, AiOutlineEdit } from "react-icons/ai";
+import { useCreateCabin } from "./hooks/useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -38,3 +48,83 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+function CabinRow({ cabin }) {
+  const [showForm, setShowForm] = useState(false);
+
+  const { isDeleting, deleteCabin } = useDeleteCabin();
+  const { isCreating, createCabin } = useCreateCabin();
+
+  const {
+    id: cabinId,
+    name,
+    maxCapacity,
+    regularPrice,
+    discount,
+    image,
+    description,
+  } = cabin;
+
+  function handleDuplicate() {
+    createCabin({
+      name: `Copia de ${cabin.name}`,
+      description,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+    });
+  }
+
+  return (
+    <>
+      <TableRow role="row">
+        <Img src={image} alt={name} />
+        <Cabin>{name}</Cabin>
+        <div>Aloja hasta {maxCapacity} invitados</div>
+        <Price>{formatCurrency(regularPrice)}</Price>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
+        <div>
+          <button
+            title="Duplicar"
+            onClick={handleDuplicate}
+            disabled={isCreating}
+          >
+            <AiOutlineDiff />
+          </button>
+          <button title="Editar" onClick={() => setShowForm(!showForm)}>
+            <AiOutlineEdit />
+          </button>
+          <button
+            title="Borrar"
+            disabled={isDeleting}
+            onClick={() => deleteCabin(cabinId)}
+          >
+            <AiOutlineDelete />
+          </button>
+        </div>
+      </TableRow>
+      {showForm && (
+        <CreateCabinForm cabinToEdit={cabin} setShowForm={setShowForm} />
+      )}
+    </>
+  );
+}
+
+CabinRow.propTypes = {
+  cabin: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    maxCapacity: PropTypes.number.isRequired,
+    regularPrice: PropTypes.number.isRequired,
+    discount: PropTypes.number,
+    image: PropTypes.string,
+    description: PropTypes.string,
+  }),
+};
+
+export default CabinRow;

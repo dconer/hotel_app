@@ -6,12 +6,14 @@ const GlobalStyles = createGlobalStyle`
   /* Indigo */
   --color-brand-50: #fff9f5;
   --color-brand-100: #fff0e6;
-  --color-brand-200: #ffd5b8;
-  --color-brand-500: #ffba8a;
-  --color-brand-600: #fe6a00;
-  --color-brand-700: #e05d00;
-  --color-brand-800: #b24a00;
-  --color-brand-900: #753100;
+  --color-brand-200: #ffe1cc;
+  --color-brand-300: #fea666;
+  --color-brand-400: #fe8833;
+  --color-brand-500: #fe6a00;
+  --color-brand-600: #e55f00;
+  --color-brand-700: #cb5500;
+  --color-brand-800: #984000;
+  --color-brand-900: #662a00;
 
   --color-sec-500:#0094fe;
 
