@@ -3,14 +3,7 @@ import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-import {
-  cloneElement,
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { cloneElement, createContext, useContext, useState } from "react";
 
 import styled from "styled-components";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
