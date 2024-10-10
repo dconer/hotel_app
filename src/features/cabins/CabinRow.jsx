@@ -9,6 +9,8 @@ import { useState } from "react";
 import { useDeleteCabin } from "./hooks/useDeleteCabin";
 import { AiOutlineDelete, AiOutlineDiff, AiOutlineEdit } from "react-icons/ai";
 import { useCreateCabin } from "./hooks/useCreateCabin";
+import Modal from "../../ui/DataPresentation/Modal";
+import ConfirmDelete from "../../ui/Input/ConfirmDelete";
 
 const TableRow = styled.div`
   display: grid;
@@ -77,41 +79,52 @@ function CabinRow({ cabin }) {
   }
 
   return (
-    <>
-      <TableRow role="row">
-        <Img src={image} alt={name} />
-        <Cabin>{name}</Cabin>
-        <div>Aloja hasta {maxCapacity} invitados</div>
-        <Price>{formatCurrency(regularPrice)}</Price>
-        {discount ? (
-          <Discount>{formatCurrency(discount)}</Discount>
-        ) : (
-          <span>&mdash;</span>
-        )}
-        <div>
-          <button
-            title="Duplicar"
-            onClick={handleDuplicate}
-            disabled={isCreating}
-          >
-            <AiOutlineDiff />
-          </button>
-          <button title="Editar" onClick={() => setShowForm(!showForm)}>
-            <AiOutlineEdit />
-          </button>
-          <button
-            title="Borrar"
-            disabled={isDeleting}
-            onClick={() => deleteCabin(cabinId)}
-          >
-            <AiOutlineDelete />
-          </button>
-        </div>
-      </TableRow>
-      {showForm && (
-        <CreateCabinForm cabinToEdit={cabin} setShowForm={setShowForm} />
+    <TableRow role="row">
+      <Img src={image} alt={name} />
+      <Cabin>{name}</Cabin>
+      <div>Aloja hasta {maxCapacity} invitados</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      {discount ? (
+        <Discount>{formatCurrency(discount)}</Discount>
+      ) : (
+        <span>&mdash;</span>
       )}
-    </>
+      <div>
+        <button
+          title="Duplicar"
+          onClick={handleDuplicate}
+          disabled={isCreating}
+        >
+          <AiOutlineDiff />
+        </button>
+
+        <Modal>
+          <Modal.Open opens="edit-form">
+            <button title="Editar">
+              <AiOutlineEdit />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="edit-form">
+            <CreateCabinForm cabinToEdit={cabin} setShowForm={setShowForm} />
+          </Modal.Window>
+        </Modal>
+
+        <Modal>
+          <Modal.Open opens="delete-confirmation">
+            <button title="Borrar" disabled={isDeleting}>
+              <AiOutlineDelete />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="delete-confirmation">
+            <ConfirmDelete
+              resourceName="cabins"
+              disabled={isDeleting}
+              onConfirm={() => deleteCabin(cabinId)}
+            />
+          </Modal.Window>
+        </Modal>
+      </div>
+    </TableRow>
   );
 }
 

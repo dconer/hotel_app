@@ -11,7 +11,7 @@ import FileInput from "../../ui/Input/FileInput";
 import Textarea from "../../ui/Input/Textarea";
 import { useEditCabin } from "./hooks/useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
+function CreateCabinForm({ cabinToEdit = {}, onClose }) {
   const { id: editId, ...editValues } = cabinToEdit;
 
   const isEditedSession = Boolean(editId);
@@ -38,10 +38,25 @@ function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     if (isEditedSession) {
-      editCabin({ newCabinData: { ...data, image }, id: editId }),
-        { onSuccess: () => reset() };
+      editCabin(
+        { newCabinData: { ...data, image }, id: editId },
+        {
+          onSuccess: () => {
+            reset();
+            onClose?.();
+          },
+        }
+      );
     } else {
-      createCabin({ ...data, image: image }, { onSuccess: () => reset() });
+      createCabin(
+        { ...data, image: image },
+        {
+          onSuccess: () => {
+            reset();
+            onClose?.();
+          },
+        }
+      );
     }
   }
 
@@ -50,7 +65,10 @@ function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onClose ? "modal" : "regular"}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           disabled={isWorking}
@@ -122,7 +140,7 @@ function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>
@@ -135,7 +153,7 @@ function CreateCabinForm({ cabinToEdit = {}, setShowForm }) {
 
 CreateCabinForm.propTypes = {
   cabinToEdit: PropTypes.object,
-  setShowForm: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default CreateCabinForm;
